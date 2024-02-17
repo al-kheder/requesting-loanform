@@ -2,8 +2,9 @@ import React from "react";
 import "./FormStyle.css";
 import Modal from "./Modal";
 import { useState } from "react";
+import MyComponent from "./MyComponent";
 
-export default function LoanForm() {
+export default function LoanForm({ title }) {
   const [errorMessage, setErrorMessage] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [loanInputs, setLoanInputs] = useState({
@@ -34,35 +35,42 @@ export default function LoanForm() {
       setShowModal(false);
     }
   }
+  function handlNameInputChange(value) {
+    setLoanInputs({ ...loanInputs, name: value });
+  }
+  function handlPhoneNumberInputChange(value) {
+    setLoanInputs({ ...loanInputs, phoneNumber: value });
+  }
+  function handlAgeInputChange(value) {
+    setLoanInputs({ ...loanInputs, age: value });
+  }
 
   return (
     <div onClick={handleDivClick} className="flex">
       <form action="" className="formstyling">
         <h1>Requesting a Loan</h1>
         <hr />
-        <label>Name:</label>
-        <input
+
+        {/* use a reusable  component  */}
+        <MyComponent
+          inputName="Name : "
           type="text"
+          handlChange={handlNameInputChange}
           value={loanInputs.name}
-          onChange={(event) => {
-            setLoanInputs({ ...loanInputs, name: event.target.value });
-          }}
         />
-        <label>Phone Number:</label>
-        <input
+        <MyComponent
+          inputName="Phone Number : "
           type="number"
-          onChange={(event) => {
-            setLoanInputs({ ...loanInputs, phoneNumber: event.target.value });
-          }}
+          handlChange={handlPhoneNumberInputChange}
+          value={loanInputs.phoneNumber}
         />
-        <label>Age:</label>
-        <input
+        <MyComponent
+          inputName="Age : "
           type="number"
+          handlChange={handlAgeInputChange}
           value={loanInputs.age}
-          onChange={(event) => {
-            setLoanInputs({ ...loanInputs, age: event.target.value });
-          }}
         />
+
         <label style={{ marginTop: "20px" }}>Are You an employee?</label>
         <input
           type="checkbox"
